@@ -18,49 +18,45 @@ public class App {
     public String getGreeting() {
         return "Hello World!";
     }
+    
+    //output only the user-selected fields from the file, Task 2.2
+    public static void UserFieldValue(String field){
 
-    //reading the file and printing out the field values, number 1 of task 2
-    public static void UserFieldValue() {
         try {
-            // Load the XML file
-            File xmlFile = new File("C:/Users/g20g3211/SDP/task2/app/src/main/java/javaapp/data.xml");
+            // Step 1: Parse the XML file
+            File file = new File("C:/Users/g20g3211/SDP/task2/app/src/main/resources/data.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
+            Document doc = dBuilder.parse(file);
             doc.getDocumentElement().normalize();
 
-            // Get the list of record elements
-            NodeList recordList = doc.getElementsByTagName("record");
-
-            // Loop through each record element
-            for (int i = 0; i < recordList.getLength(); i++) {
-                Node recordNode = recordList.item(i);
-                if (recordNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element recordElement = (Element) recordNode;
-                    System.out.println("Record " + (i + 1) + ":");
-                    System.out.println("Name: " + recordElement.getElementsByTagName("name").item(0).getTextContent());
-                    System.out.println("Postal Zip: " + recordElement.getElementsByTagName("postalZip").item(0).getTextContent());
-                    System.out.println("Region: " + recordElement.getElementsByTagName("region").item(0).getTextContent());
-                    System.out.println("Country: " + recordElement.getElementsByTagName("country").item(0).getTextContent());
-                    System.out.println("Address: " + recordElement.getElementsByTagName("address").item(0).getTextContent());
-                    System.out.println("List: " + recordElement.getElementsByTagName("list").item(0).getTextContent());
-                    System.out.println();
+            // Step 2: Retrieve the field values
+            NodeList nodeList = doc.getElementsByTagName(field);
+            if (nodeList.getLength() > 0) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Node node = nodeList.item(i);
+                    if (node.getNodeType() == Node.ELEMENT_NODE) {
+                        Element element = (Element) node;
+                        System.out.println(field + " (" + (i + 1) + "): " + element.getTextContent());
+                    }
                 }
+            } else {
+                System.out.println("Field not found in the XML file.");
             }
-        } catch (Exception e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    
-    //output only the user-selected fields from the file
-
-
 
     public static void main(String[] args) {
+        
+        String fieldName = "name";
+        
         System.out.println(new App().getGreeting());
-        //String fieldName = 
-        new App().UserFieldValue();
+       
+        new App().UserFieldValue(fieldName);                                                                //Task 2.2
+                                                                    
     }
 
 }
