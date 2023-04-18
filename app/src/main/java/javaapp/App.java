@@ -5,8 +5,8 @@ package javaapp;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-//import org.json.JSONArray;
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import org.xml.sax.SAXException;
@@ -17,7 +17,7 @@ public class App {
     }
     
     //output only the user-selected fields from the file, Task 2.2
-    public static void JSONformat(String field){
+    public static void Validation(String field){
 
         try {
             // Step 1: Parse the XML file
@@ -44,8 +44,12 @@ public class App {
             } else {
                 System.out.println("Field not found in the XML file.");
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            System.out.println("Error: ParserConfigurationException - " + e.getMessage());
+        } catch (SAXException e) {
+            System.out.println("Error: SAXException - " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error: IOException - " + e.getMessage());
         }
     }
 
@@ -56,7 +60,7 @@ public class App {
         
         System.out.println(new App().getGreeting());
        
-        new App().JSONformat(fieldName);                                                             
+        new App().Validation(fieldName);                                                             
                                                                     
     }
 
